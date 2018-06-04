@@ -1,0 +1,98 @@
+<div class="ngx-image-editor-component" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
+  <div mat-dialog-title class="photo-editor-header" fxLayoutGap="1rem">
+    <mat-icon>photo</mat-icon>
+    <div class="file-name">Image</div>
+    <button mat-icon-button matTooltip="Close" (click)="dialogRef.close()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content fxLayout="row" fxFlex="1 1 auto">
+    <rtn-cropper #cropper [imageUrl]="imageurl" [cropperOptions]="data.cropperOptions" (imageLoaded)="onLoad($event)" (imageCropped)="onCrop($event)"></rtn-cropper>
+  </div>
+  <div fxLayout="row" class="crop-toolbar" fxLayoutAlign="start center" fxLayoutGap="5px">
+    <mat-tab-group headerPosition="below" fxFlex="grow">
+      <mat-tab label="resize">
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+            <mat-icon matTooltip="Taglia e ridimensiona">crop_rotate</mat-icon>
+            <span>Ritaglia</span>
+          </div>
+        </ng-template>
+        <div fxLayout="row" class="tab-toolbar" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+          <button mat-icon-button matTooltip="Ingrandisce immagine" (click)="cropper.scaleIn()">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Rimpicciolisce immagine" (click)="cropper.scaleOut()">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Centra immagine" (click)="cropper.centerImage()">
+            <mat-icon>center_focus_strong</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Ruota a sinistra" (click)="cropper.rotate(-90)">
+            <mat-icon>rotate_left</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Ruota a destra" (click)="cropper.rotate(90)">
+            <mat-icon>rotate_right</mat-icon>
+          </button>
+        </div>
+      </mat-tab>
+      <mat-tab label="rotate" #tabFilter>
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+            <mat-icon matTooltip="Applica filtro">insert_photo</mat-icon>
+            <span>Applica Filtro</span>
+          </div>
+        </ng-template>
+        <div style="min-width: 500px;">
+          <div fxLayout="row" class="tab-toolbar tab-toolbar--filter" fxLayoutAlign="start center" fxLayoutGap="2rem">
+            <a *ngFor="let filter of filters" href="javascript:void(0)" [matTooltip]="filter" (click)="cropper.applyFilter(filter)">
+              <img [rtnImageFilter]="filter" [originSrc]="imageurl" style="max-width:50px; height: auto;" />
+            </a>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="rotate">
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+            <mat-icon>tune</mat-icon>
+            <span>Modifica</span>
+          </div>
+        </ng-template>
+        <div fxLayout="row" class="tab-toolbar" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+          <ng-container *ngIf="!filtersConfigSelected">
+            <button mat-icon-button matTooltip="Luminosità" (click)="selectFilter('Brightness')">
+              <mat-icon>brightness_3</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Contrasto" (click)="selectFilter('Contrast')">
+              <mat-icon>tonality</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Saturazione" (click)="selectFilter('Saturation')">
+              <mat-icon>colorize</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Noise" (click)="selectFilter('Noise')">
+              <mat-icon>tv</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="filtersConfigSelected">
+            <button mat-icon-button matTooltip="Indietro" (click)="back()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div fxLayout="column" fxLayoutAlign="start start" fxFlex="1 1 100%">
+              <div>{{filtersConfigSelected.label}}</div>
+              <mat-slider
+              [min]="filtersConfigSelected.min"
+              [max]="filtersConfigSelected.max"
+              [value]="filtersConfigSelected.value"
+              [step]="filtersConfigSelected.step"
+              (change)="changeFilterValue(filtersConfigSelected.filterName,$event.value)">
+              </mat-slider>
+            </div>
+          </ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div fxLayout="row" class="crop-footer" fxLayoutAlign="end center" fxLayoutGap="5px">
+    <button mat-raised-button color="primary" (click)="save()">Salva</button>
+  </div>
+</div>

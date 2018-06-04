@@ -1,0 +1,13 @@
+<div fxLayoutAlign="space-around center" fxLayoutGap="5px">
+  <button mat-icon-button matTooltip="Indietro" (click)="back.emit()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <mat-slider (change)="change.emit($event)"
+  [min]="min"
+  [max]="max"
+  [value]="value"
+  [step] = "step">
+</mat-slider>
+</div>
+
+

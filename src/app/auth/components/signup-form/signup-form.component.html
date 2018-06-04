@@ -1,0 +1,23 @@
+<form fxLayout="column" [formGroup]="formG" (ngSubmit)="submitted()" fxFlex="grow" fxLayoutGap="16px" fxLayoutAlign="center stretch">
+  <mat-form-field class="mb-2">
+    <input matInput placeholder="Name" formControlName="name" type="text">
+    <mat-error *ngIf="!formG.controls.name.valid">
+      Nome non valido
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="mb-2">
+    <input matInput placeholder="Email" formControlName="email" type="email">
+    <mat-error *ngIf="!formG.controls.email.valid">
+      Inserire indirizzo email valido
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password" type="password">
+    <mat-error *ngIf="!formG.controls.password.valid">
+      Inserire password valida
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="button-social button-social--email mt-3 " type="submit">
+    crea account
+  </button>
+</form>

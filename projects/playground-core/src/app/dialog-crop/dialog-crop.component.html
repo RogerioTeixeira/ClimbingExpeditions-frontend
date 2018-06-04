@@ -1,0 +1,6 @@
+<div fxLayout="column" style="padding:1rem;" fxLayoutAlign="center center">
+  <button mat-raised-button color="primary" (click)="open()">Crop Dialog</button>
+  <div *ngIf="$afterClosed | async as user">
+    <img [src]="user" />
+  </div>
+</div>

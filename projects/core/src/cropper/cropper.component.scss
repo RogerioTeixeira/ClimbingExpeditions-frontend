@@ -1,0 +1,21 @@
+.cropper-container{
+  position: relative;
+  min-height: 100px;
+  max-width: 100%;
+}
+
+:host{
+    display: flex;
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    max-height: 100%;
+
+}
+
+.spinner-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}

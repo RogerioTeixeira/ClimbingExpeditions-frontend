@@ -1,0 +1,12 @@
+<clex-card-auth title="Registrati">
+  <clex-signup-form (signedUp)="signup($event)"> </clex-signup-form>
+  <hr class="hr--separator">
+  <div fxLayout="column" fxLayoutGap="10px" fxFlex="grown" fxLayoutAlign="center stretch">
+    <div fxFlexAlign="center" class="text-title-social">Connettiti con</div>
+    <clex-social-auth></clex-social-auth>
+  </div>
+  <div fxFlexAlign="center" class="text-title-social">
+    Hai hai un account ?
+    <a routerLink="/auth/signin"> Accedi</a>
+  </div>
+</clex-card-auth>

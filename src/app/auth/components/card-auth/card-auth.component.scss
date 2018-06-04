@@ -1,0 +1,30 @@
+@import '~@angular/material/theming';
+@import '../../../../assets/scss/mixin.scss';
+:host {
+  display: flex;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.container-card {
+  padding: 0;
+  @include breakpoint(xs) {
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+  @include breakpoint-gt(sm) {
+    min-width: 40vw;
+    min-height: 400px;
+  }
+  @include breakpoint-gt(md) {
+    min-width: 25vw;
+    min-height: 400px;
+    max-height: 700px;
+  }
+  .mat-card-title {
+    background: mat-color($mat-orange, 700);
+    padding: 0.75rem;
+    text-transform: uppercase;
+    color: #fff
+  }
+}

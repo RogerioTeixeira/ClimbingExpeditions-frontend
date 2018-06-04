@@ -1,0 +1,75 @@
+@import '~@angular/material/theming';
+@import '../../assets/scss/mixin';
+
+@include breakpoint-gt(xs) {
+  .section-background {
+    background-image: url('/assets/images/mountain2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @at-root #{&}__content {
+      color: #fff;
+      text-align: center;
+      @at-root #{&}__title {
+        font-size: 3rem;
+      }
+      @at-root #{&}__subtitle {
+        font-size: 1.5rem;
+      }
+      .button-start {
+        margin: 3rem 0;
+        min-width: 10rem;
+        line-height: 3rem;
+        font-weight: 700;
+        background: mat-color($mat-green, 500);
+      }
+    }
+  }
+}
+
+//da visualizzare solo su schemi piccoli
+@include breakpoint-lt(sm) {
+  .section-background {
+    background-image: url('/assets/images/mountain2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @at-root #{&}__content {
+      color: #fff;
+      text-align: center;
+      @at-root #{&}__title {
+        font-size: 1.5rem;
+      }
+      @at-root #{&}__subtitle {
+        font-size: 1rem;
+      }
+      .button-start {
+        margin: 3rem 0;
+        min-width: 10rem;
+        line-height: 3rem;
+        font-weight: 700;
+        background: mat-color($mat-green, 500);
+      }
+    }
+  }
+}
+
+.section-md {
+  background: mat-color($mat-blue, 800);
+  color: #fff;
+  padding: 2rem 0;
+  .action-box__title {
+    font-size: 1.5rem;
+    line-height: 40px;
+  }
+  .action-box__text {
+    line-height: 1.5rem;
+    padding: 0 20px;
+    height: 96px;
+  }
+}
+
+.section__title {
+  margin-bottom: 1.75rem;
+  font-size: 1.5rem;
+}

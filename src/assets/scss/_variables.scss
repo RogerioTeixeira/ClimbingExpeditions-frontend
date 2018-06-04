@@ -1,0 +1,29 @@
+$link-color: #3f51b5;
+$link-hover-color: currentColor;
+$link-hover-decoration: none;
+
+$black: #27374c;
+$basecolor: #FF7043;
+
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge((
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 3)
+), $spacers);
+
+$sizes: () !default;
+$sizes: map-merge((
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+), $sizes);
+
+$zindex-fixed:2000;
+$zindex-sticky: $zindex-fixed

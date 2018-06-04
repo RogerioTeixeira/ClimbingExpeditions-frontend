@@ -1,0 +1,17 @@
+<mat-toolbar class="toolbar">
+  <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawerToggle.emit()" *ngIf="isHandset">
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <a routerLink="" class="navigation-link">
+    <img src="/assets/images/logo.png" alt="logo" />
+  </a>
+  <div fxLayout="row" fxFlex="grown" *ngIf="!isHandset">
+    <span fxFlex="1 1 100%"></span>
+    <a class="navigation-link navigation-link--primary" href="#">MEMBRI</a>
+    <a class="navigation-link navigation-link--primary" href="#">GRUPPO</a>
+    <a class="navigation-link navigation-link--primary" href="#">EVENTI</a>
+    <span fxFlex="2 2 100%"></span>
+    <a class="navigation-link navigation-link--primary" routerLink="auth/signin">ACCEDI</a>
+    <a class="navigation-link navigation-link--primary" routerLink="auth/signup">ISCRIVITI</a>
+  </div>
+</mat-toolbar>

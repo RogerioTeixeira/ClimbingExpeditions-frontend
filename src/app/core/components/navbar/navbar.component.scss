@@ -1,0 +1,25 @@
+@import '~@angular/material/theming';
+
+.toolbar {
+  background: rgba(255, 255, 255, 0.952941);
+  @include mat-elevation(5);
+  font-size: 1rem;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height:64px;
+}
+
+.navigation-link {
+  padding: 0.5rem 1rem;
+  @at-root #{&}--primary {
+      color: rgb(146, 157, 173) !important;
+      &:hover,
+      &:focus {
+          color: #ff6600 !important;
+          text-decoration: none;
+      }
+  }
+}

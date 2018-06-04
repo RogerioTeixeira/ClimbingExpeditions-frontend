@@ -1,0 +1,48 @@
+@import "variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "reset";
+@import '~@angular/material/theming';
+@import 'mixin';
+
+@import 'utilities';
+
+
+
+@include mat-core();
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent: mat-palette($mat-pink,A200,A100,A400);
+$candy-app-warn: mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme( $candy-app-primary,
+$candy-app-accent,
+$candy-app-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+
+.mat-drawer-container{
+  background-color: #F1EFEA;
+}
+
+.button-social {
+  width: 100%;
+  text-transform: uppercase;
+
+  @at-root #{&}--facebook {
+    background: #3b5999 !important;
+  }
+  @at-root #{&}--google {
+    background: #dd4b39 !important;
+  }
+  @at-root #{&}--twitter {
+    background: #55acee !important;
+  }
+  @at-root #{&}--email {
+    background: mat-color($mat-green, 500) !important;
+  }
+}

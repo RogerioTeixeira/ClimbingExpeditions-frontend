@@ -7,16 +7,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
+import {ShareModule} from '../share/share.module';
 
 import { environment } from '../../environments/environment';
-import {
-  MatToolbarModule,
-  MatButtonModule,
-  MatSidenavModule,
-  MatIconModule,
-  MatListModule,
-  MatMenuModule
-} from '@angular/material';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AngularFireModule } from 'angularfire2';
@@ -27,15 +20,9 @@ import { ApiService } from './services/api.service';
 @NgModule({
   imports: [
     CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
+    ShareModule,
     LayoutModule,
     RouterModule,
-    FlexLayoutModule,
-    MatMenuModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.config)
   ],

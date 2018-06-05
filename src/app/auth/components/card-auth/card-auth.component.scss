@@ -12,6 +12,10 @@
     min-width: 100vw;
     min-height: 100vh;
   }
+  @include breakpoint-gt(xs) {
+    min-width: 60vw;
+    min-height: 400px;
+  }
   @include breakpoint-gt(sm) {
     min-width: 40vw;
     min-height: 400px;
@@ -19,8 +23,8 @@
   @include breakpoint-gt(md) {
     min-width: 25vw;
     min-height: 400px;
-    max-height: 700px;
   }
+
   .mat-card-title {
     background: mat-color($mat-orange, 700);
     padding: 0.75rem;

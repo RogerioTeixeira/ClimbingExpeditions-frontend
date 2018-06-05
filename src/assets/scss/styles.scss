@@ -31,6 +31,7 @@ $candy-app-warn);
 
 .button-social {
   width: 100%;
+  min-height: 36px;
   text-transform: uppercase;
 
   @at-root #{&}--facebook {

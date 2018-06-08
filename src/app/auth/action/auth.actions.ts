@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { FormAuth , User } from '../models';
+import { FormAuth} from '../models';
+import {User} from '../../model'
 
 export enum AuthActionTypes {
   Signin = '[Auth] Signin',

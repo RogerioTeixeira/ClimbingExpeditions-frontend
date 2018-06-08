@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  api_url:'http:localhost:300',
   config : {
     apiKey: 'AIzaSyDqiX92YmsdEUT69P7Et_ZWJB0YWoQ5jBw',
     authDomain: 'climbingexpeditions-177213.firebaseapp.com',

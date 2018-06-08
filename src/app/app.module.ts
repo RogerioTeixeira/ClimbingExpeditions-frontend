@@ -21,7 +21,7 @@ import {AuthModule} from './auth/auth.module';
     EffectsModule.forRoot([]),
     CoreModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    AuthModule.forRoot()
+    AuthModule
   ],
   bootstrap: [AppComponent]
 })

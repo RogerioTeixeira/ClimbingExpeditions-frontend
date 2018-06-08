@@ -6,7 +6,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { FormAuth } from '../../models';
-import { ApiService } from '../../../core/services/api.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'clex-signin-form',

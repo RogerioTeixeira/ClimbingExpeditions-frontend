@@ -15,7 +15,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from './services/auth.service';
-import { ApiService } from './services/api.service';
+import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
@@ -33,7 +33,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [AngularFireAuth , AuthService , ApiService]
+      providers: [AngularFireAuth , AuthService , UserService]
     };
   }
 }

@@ -27,7 +27,8 @@ export class AuthService {
   }
 
   getIdToken(): Observable<string> {
-    return this.afAuth.authState.pipe(switchMap(user => user.getIdToken()));
+    //return fromPromise(this.afAuth.auth.currentUser.getIdToken(true))
+    return this.afAuth.authState.pipe(switchMap(user => user.getIdToken(true)));
   }
 
   getCurrentUser(): Observable<firebase.User> {

@@ -13,7 +13,6 @@
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "swagger": "swagger-codegen-cli generate -Dmodels=response -i http://localhost:3000/swagger.json -l typescript-angular -o src/app"
-
   },
   "private": true,
   "dependencies": {

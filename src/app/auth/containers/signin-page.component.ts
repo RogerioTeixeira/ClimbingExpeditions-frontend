@@ -26,10 +26,5 @@ export class SignInPageComponent implements OnInit, OnDestroy {
 
   signIn(event: FormAuth) {
     this.store.dispatch(new AuthActions.AuthSignin(event));
-    this.auth
-      .signInWithEmail(event.authInfo.email, event.authInfo.password)
-      .subscribe((credential) => {
-        console.log('user==>', credential.user.email);
-      });
   }
 }

@@ -5,8 +5,8 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
-import * as fromLayout from '../core/reducers/layout.reducer';
+import { environment } from '../../../environments/environment';
+import * as fromLayout from '../reducers/layout.reducer';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 

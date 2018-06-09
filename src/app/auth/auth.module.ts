@@ -14,26 +14,25 @@ import { CardAuthComponent } from './components/card-auth/card-auth.component';
 import { AuthEffects } from './effects/auth.effects';
 import { reducers } from './reducers';
 
-const DECLARATIONS= [
+const DECLARATIONS = [
   SignInFormComponent,
   SignInPageComponent,
   SocialAuthComponent,
   SignUpFormComponent,
   SignUpPageComponent,
   CardAuthComponent
-]
+];
 
 const IMPORTS = [
-  CommonModule, 
-  AuthRoutingModule, 
+  CommonModule,
+  AuthRoutingModule,
   ShareModule,
   StoreModule.forFeature('auth', reducers),
   EffectsModule.forFeature([AuthEffects])
-]
+];
 
 @NgModule({
   imports: IMPORTS,
   declarations: DECLARATIONS
 })
-export class AuthModule {
-}
+export class AuthModule {}

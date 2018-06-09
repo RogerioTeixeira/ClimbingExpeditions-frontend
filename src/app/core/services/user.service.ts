@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {ResponseApi} from '../../model/response';
-import {Api} from './api.base'
+import {Api} from './api.base';
 import {User} from '../../model/user';
 
 @Injectable()
-export class UserService extends Api<ResponseApi<User>> { 
-  constructor(public http: HttpClient) {
+export class UserService extends Api<ResponseApi<User>> {
+  constructor(http: HttpClient) {
        super(http);
   }
 
@@ -16,6 +16,6 @@ export class UserService extends Api<ResponseApi<User>> {
   }
 
   public getUserInfo(): Observable<ResponseApi<User>> {
-    return this.get('/api/users');
+    return this.get('/api/users/me');
   }
 }

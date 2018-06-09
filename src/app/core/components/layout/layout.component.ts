@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { isShowNabar, isShowFooter } from '../../../reducers';
+import { isShowNabar, isShowFooter } from '../../../core/reducers/index';
 
 @Component({
   selector: 'clex-layout',

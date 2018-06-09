@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  api_url:'http:localhost:300',
-  config : {
+  api_url: 'http://localhost:3000',
+  config: {
     apiKey: 'AIzaSyDqiX92YmsdEUT69P7Et_ZWJB0YWoQ5jBw',
     authDomain: 'climbingexpeditions-177213.firebaseapp.com',
     databaseURL: 'https://climbingexpeditions-177213.firebaseio.com',
@@ -15,4 +15,3 @@ export const environment = {
     messagingSenderId: '31099686343'
   }
 };
-

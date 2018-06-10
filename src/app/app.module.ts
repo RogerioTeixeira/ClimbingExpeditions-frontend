@@ -11,10 +11,11 @@ import {AuthModule} from './auth/auth.module';
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'FrontEnd' }),
-    AppRoutingModule,
+
     BrowserAnimationsModule,
     CoreModule,
-    AuthModule
+    AuthModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { FormAuth} from '../models';
-//import {User} from '../../model'
 
 export enum AuthActionTypes {
   Signin = '[Auth] Signin',
@@ -9,7 +8,8 @@ export enum AuthActionTypes {
   Signup = '[Auth] Signup',
   SignupSuccess = '[Auth] Signup success',
   SignupFailure = '[Auth] Signup failure',
-  Logout = '[Auth] logout'
+  Logout = '[Auth] logout',
+  LogoutSuccess = '[Auth] logout success'
 }
 
 export class AuthSignin implements Action {
@@ -46,6 +46,10 @@ export class AuthLogout implements Action {
   readonly type = AuthActionTypes.Logout;
 }
 
+export class AuthLogoutSuccess implements Action {
+  readonly type = AuthActionTypes.LogoutSuccess;
+}
+
 export type AuthActions =
   | AuthSignin
   | AuthSignup
@@ -53,4 +57,5 @@ export type AuthActions =
   | AuthSignupSuccess
   | AuthSigninFailure
   | AuthSignupFailure
-  | AuthLogout;
+  | AuthLogout
+  | AuthLogoutSuccess;

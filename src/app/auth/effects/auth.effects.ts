@@ -12,7 +12,9 @@ import {
   AuthSigninSuccess,
   AuthSigninFailure,
   UserLoad,
-  UserReset
+  AuthLogoutSuccess,
+  UserReset,
+  AuthSignupSuccess
 } from '../action';
 import { FormAuth } from '../models';
 import { AuthService } from '../../core/services';
@@ -41,22 +43,34 @@ export class AuthEffects {
     tap(() => this.router.navigate(['/']))
   );
 
+
+  
+  @Effect()
   signup$ = this.actions$.pipe(
     ofType<AuthSignin>(AuthActionTypes.Signup),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth
-        .signUpWithEmail(payload.authInfo.email, payload.authInfo.password)
+        .signUpWithEmail(payload.authInfo.email, payload.authInfo.password, payload.authInfo.name)
         .pipe(
-          switchMap(() => from([new AuthSigninSuccess(), new UserLoad()])),
+          switchMap((auth) => from([new AuthSignupSuccess(auth.user.email)])),
           catchError(this.handlerError(new AuthSigninFailure()))
         )
     )
   );
 
+  @Effect()
   logout$ = this.actions$.pipe(
     ofType<AuthSignin>(AuthActionTypes.Logout),
-    map(action => new UserReset())
+    map(action => action.payload),
+    exhaustMap((payload: FormAuth) =>
+      this.auth
+        .logout()
+        .pipe(
+          switchMap(() => from([new AuthLogoutSuccess(), new UserReset()])),
+          catchError(this.handlerError())
+        )
+    )
   );
 
   private handlerError(action?: any): any {

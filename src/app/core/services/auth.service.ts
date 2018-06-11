@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/observable';
 import * as firebase from 'firebase/app';
 import { FirebaseHandlerError } from '../error/firebase-error';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators/catchError';
-
 
 @Injectable()
 export class AuthService {
@@ -25,17 +24,33 @@ export class AuthService {
     return fromPromise(p).pipe(catchError(this.formatErrors));
   }
 
-  signUpWithEmail(email: string, password: string): Observable<any> {
+  signUpWithEmail(
+    email: string,
+    password: string,
+    name: string
+  ): Observable<firebase.auth.UserCredential> {
     const p = this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-    return fromPromise(p).pipe(catchError(this.formatErrors));
+    return fromPromise(p).pipe(
+      tap((credential: firebase.auth.UserCredential) => {
+         credential.user.updateProfile({ displayName: name, photoURL: null });
+      }),
+      tap(x => {console.log('valore x:', x); }),
+      catchError(this.formatErrors)
+    );
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(user => (user ? true : false)), catchError(this.formatErrors));
+    return this.afAuth.authState.pipe(
+      map(user => (user ? true : false)),
+      catchError(this.formatErrors)
+    );
   }
 
   getIdToken(): Observable<string> {
-    return this.afAuth.authState.pipe(switchMap(user => user.getIdToken(true)) , catchError(this.formatErrors));
+    return this.afAuth.authState.pipe(
+      switchMap(user => user.getIdToken(true)),
+      catchError(this.formatErrors)
+    );
   }
 
   getCurrentUser(): Observable<firebase.User> {

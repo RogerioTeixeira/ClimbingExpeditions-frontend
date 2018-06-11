@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormAuth } from '../models';
-import { AuthService } from '../../core/services/auth.service';
-import { Store } from '@ngrx/store';
 import * as LayoutActions from '../../core/actions/layout.actions';
+import { Store } from '@ngrx/store';
+import * as actions from '../../auth/action';
 
 @Component({
   selector: 'clex-signup-page',
@@ -10,7 +10,7 @@ import * as LayoutActions from '../../core/actions/layout.actions';
   styleUrls: ['./auth-share.component.scss']
 })
 export class SignUpPageComponent implements OnInit, OnDestroy {
-  constructor(public store: Store<any>, private auth: AuthService) { }
+  constructor(public store: Store<any>) { }
 
   ngOnInit() {
     this.store.dispatch(new LayoutActions.HideNavBar());
@@ -23,6 +23,7 @@ export class SignUpPageComponent implements OnInit, OnDestroy {
   }
 
   signup(event: FormAuth) {
-    this.auth.signUpWithEmail(event.authInfo.email, event.authInfo.password);
+    console.log('signup 1:' , event);
+    this.store.dispatch(new actions.AuthSignup(event));
   }
 }

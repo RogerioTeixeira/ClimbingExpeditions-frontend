@@ -20,6 +20,7 @@ export function reducer(state = initialState, action: AuthActions): State {
 
     case AuthActionTypes.SigninSuccess:
     case AuthActionTypes.SignupSuccess:
+    console.log('sono nel reducer');
       return {
         ...state,
         pending: false,
@@ -29,7 +30,7 @@ export function reducer(state = initialState, action: AuthActions): State {
 
     case AuthActionTypes.SigninFailure:
     case AuthActionTypes.SignupFailure:
-    case AuthActionTypes.Logout:
+    case AuthActionTypes.LogoutSuccess:
       return initialState;
 
     default:

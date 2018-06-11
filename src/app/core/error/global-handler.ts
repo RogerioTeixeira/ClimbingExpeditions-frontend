@@ -21,7 +21,7 @@ export class ErrorsHandler implements ErrorHandler {
     } else if (error instanceof ServerErrorHandler) {
       notificationService.message(error.decodeMessage);
     } else {
-      console.log('errore client');
+      console.log('errore client:' , error);
     }
   }
 }

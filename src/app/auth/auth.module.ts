@@ -11,7 +11,7 @@ import { SocialAuthComponent } from './components/social-auth/social-auth.compon
 import { SignUpFormComponent } from './components/signup-form/signup-form.component';
 import { SignUpPageComponent } from './containers/signup-page.component';
 import { CardAuthComponent } from './components/card-auth/card-auth.component';
-import { AuthEffects } from './effects/auth.effects';
+import { AuthEffects , UserEffects } from './effects';
 import { reducers } from './reducers';
 
 const DECLARATIONS = [
@@ -28,7 +28,7 @@ const IMPORTS = [
   AuthRoutingModule,
   ShareModule,
   StoreModule.forFeature('auth', reducers),
-  EffectsModule.forFeature([AuthEffects])
+  EffectsModule.forFeature([AuthEffects , UserEffects])
 ];
 
 @NgModule({

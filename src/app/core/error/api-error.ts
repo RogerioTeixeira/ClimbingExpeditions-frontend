@@ -16,7 +16,9 @@ export class ApiHandlerError extends ServerErrorHandler<HttpErrorResponse> {
       case 404:
         return `URI ${this.error.url} non trovata. Contattare amministratore del sito`;
       case 500:
-        return 'Server momentaneamente non disponibile';
+        return 'Errore server';
+        case 0:
+        return 'Server momentaneamente non raggiungibile';
       default:
         return this.message;
     }

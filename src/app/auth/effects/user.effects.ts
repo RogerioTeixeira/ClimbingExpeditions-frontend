@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of, Observable , from } from 'rxjs';
+import { of, Observable, from } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import * as errorActions from '../../core/actions';
 import * as firebase from 'firebase/app';
@@ -22,26 +22,25 @@ export class UserEffects {
   load$ = this.actions$.pipe(
     ofType<UserLoad>(UserActionTypes.Load),
     exhaustMap(() =>
-      this.userService.getUserInfo()
-        .pipe(
-          map(res => new UserLoadSuccess(res.data)), 
-          catchError(this.handlerError(new UserLoadFailure()))
-        )
+      this.userService.getUserInfo().pipe(
+        map(res => new UserLoadSuccess(res.data)),
+        catchError(err => {
+          return from([new UserLoadFailure() , new errorActions.Error(err)]);
+        })
+      )
     )
   );
 
-  private handlerError(action?:any): any {
-      return (err:HttpErrorResponse) =>{
-        console.log(err);
-        const actions: any[] = [action];
-        if (err.status != 404){
-          actions.push(new errorActions.Error(err))
-        }
-        return from(actions);    
+  /*private handlerError(action?: any): any {
+    return (err: HttpErrorResponse) => {
+      console.log(err);
+      const actions: any[] = [action];
+      if (err.status !== 404) {
+        actions.push(new errorActions.Error(err));
       }
-  }
+      return from(actions);
+    };
+  }*/
 
-
-  constructor(private actions$: Actions, private userService: UserService) { }
-
+  constructor(private actions$: Actions, private userService: UserService) {}
 }

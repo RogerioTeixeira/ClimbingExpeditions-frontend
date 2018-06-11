@@ -14,7 +14,6 @@ export function reducer(state = initialState, action: UserActions): State {
   switch (action.type) {
     case UserActionTypes.Load:
       return { ...state, pending: true };
-      
     case UserActionTypes.LoadSuccess:
       return { ...state, pending: false, user: action.payload };
 

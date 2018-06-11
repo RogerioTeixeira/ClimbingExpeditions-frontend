@@ -4,24 +4,28 @@ import { AuthActions, AuthActionTypes } from '../action/auth.actions';
 export interface State {
   loggedIn: boolean;
   pending: boolean;
-  email?:string;
-  photo?:string;
+  email?: string;
 }
 
 export const initialState: State = {
   loggedIn: false,
-  pending: false,
+  pending: false
 };
 
 export function reducer(state = initialState, action: AuthActions): State {
   switch (action.type) {
     case AuthActionTypes.Signin:
     case AuthActionTypes.Signup:
-      return { ...state, pending:true , loggedIn :false };
+      return { ...state, pending: true, loggedIn: false };
 
     case AuthActionTypes.SigninSuccess:
     case AuthActionTypes.SignupSuccess:
-      return { ...state, pending:false , loggedIn:true , email:action.payload };
+      return {
+        ...state,
+        pending: false,
+        loggedIn: true,
+        email: action.payload
+      };
 
     case AuthActionTypes.SigninFailure:
     case AuthActionTypes.SignupFailure:

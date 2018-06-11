@@ -11,7 +11,39 @@
     <a class="navigation-link navigation-link--primary" href="#">GRUPPO</a>
     <a class="navigation-link navigation-link--primary" href="#">EVENTI</a>
     <span fxFlex="2 2 100%"></span>
-    <a class="navigation-link navigation-link--primary" routerLink="signin">ACCEDI</a>
-    <a class="navigation-link navigation-link--primary" routerLink="signup">ISCRIVITI</a>
+    <ng-container *ngIf="!($isLoggin|async);then logout else login"></ng-container>
+    <ng-template #login>
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="mr-2">
+        <img src="/assets/images/profile.png" alt="profile" class="img-profile rounded-circle" />
+      </button>
+    </ng-template>
+    <ng-template #logout>
+      <a class="navigation-link navigation-link--primary" routerLink="signin">ACCEDI</a>
+      <a class="navigation-link navigation-link--primary" routerLink="signup">ISCRIVITI</a>
+    </ng-template>
   </div>
 </mat-toolbar>
+
+<mat-menu [overlapTrigger]="false" #menu="matMenu">
+  <button mat-menu-item routerLink="dashboard">
+    <mat-icon>dashboard</mat-icon>
+    <span>BACHECA</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>email</mat-icon>
+    <span>MESSAGGI</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>account_box</mat-icon>
+    <span>MIO PROFILO</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>settings_applications</mat-icon>
+    <span>IMPOSTAZIONI</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()"> 
+    <mat-icon>exit_to_app</mat-icon>
+    <span>ESCI</span>
+  </button>
+</mat-menu>

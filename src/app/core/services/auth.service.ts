@@ -31,10 +31,9 @@ export class AuthService {
   ): Observable<firebase.auth.UserCredential> {
     const p = this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     return fromPromise(p).pipe(
-      tap((credential: firebase.auth.UserCredential) => {
-         credential.user.updateProfile({ displayName: name, photoURL: null });
+      tap(async (credential: firebase.auth.UserCredential) => {
+         await credential.user.updateProfile({ displayName: name, photoURL: null });
       }),
-      tap(x => {console.log('valore x:', x); }),
       catchError(this.formatErrors)
     );
   }

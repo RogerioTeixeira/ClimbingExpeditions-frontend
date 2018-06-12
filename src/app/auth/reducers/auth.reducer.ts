@@ -16,11 +16,12 @@ export function reducer(state = initialState, action: AuthActions): State {
   switch (action.type) {
     case AuthActionTypes.Signin:
     case AuthActionTypes.Signup:
+    case AuthActionTypes.Authenticaded:
       return { ...state, pending: true, loggedIn: false };
 
     case AuthActionTypes.SigninSuccess:
     case AuthActionTypes.SignupSuccess:
-    console.log('sono nel reducer');
+    case AuthActionTypes.AuthenticadedSuccess:
       return {
         ...state,
         pending: false,
@@ -31,6 +32,7 @@ export function reducer(state = initialState, action: AuthActions): State {
     case AuthActionTypes.SigninFailure:
     case AuthActionTypes.SignupFailure:
     case AuthActionTypes.LogoutSuccess:
+    case AuthActionTypes.AuthenticadedFailure:
       return initialState;
 
     default:

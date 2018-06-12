@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from } from 'rxjs';
+import { Observable, from , defer , of} from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import * as errorActions from '../../core/actions';
-import * as firebase from 'firebase/app';
-import { User } from '../../model';
 import {
+  AuthActions,
   AuthSignin,
   AuthActionTypes,
   AuthSigninSuccess,
@@ -14,7 +13,11 @@ import {
   UserLoad,
   AuthLogoutSuccess,
   UserReset,
-  AuthSignupSuccess
+  AuthSignupSuccess,
+  UserCreate,
+  AuthAuthenticaded,
+  AuthAuthenticadedSuccess,
+  AuthAuthenticadedFailure
 } from '../action';
 import { FormAuth } from '../models';
 import { AuthService } from '../../core/services';
@@ -23,7 +26,7 @@ import { AuthService } from '../../core/services';
 export class AuthEffects {
   @Effect()
   login$ = this.actions$.pipe(
-    ofType<AuthSignin>(AuthActionTypes.Signin),
+    ofType<AuthActions>(AuthActionTypes.Signin),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth
@@ -37,9 +40,20 @@ export class AuthEffects {
     )
   );
 
+
+  
+
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
-    ofType<AuthSignin>(AuthActionTypes.SigninSuccess),
+    ofType<AuthActions>(AuthActionTypes.SigninSuccess),
+    tap(() => this.router.navigate(['/']))
+  );
+
+
+
+  @Effect({ dispatch: false })
+  signupSuccess$ = this.actions$.pipe(
+    ofType<AuthActions>(AuthActionTypes.SignupSuccess),
     tap(() => this.router.navigate(['/']))
   );
 
@@ -47,13 +61,31 @@ export class AuthEffects {
   
   @Effect()
   signup$ = this.actions$.pipe(
-    ofType<AuthSignin>(AuthActionTypes.Signup),
+    ofType<AuthActions>(AuthActionTypes.Signup),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth
         .signUpWithEmail(payload.authInfo.email, payload.authInfo.password, payload.authInfo.name)
         .pipe(
-          switchMap((auth) => from([new AuthSignupSuccess(auth.user.email)])),
+          switchMap((auth) => from([new AuthSignupSuccess(auth.user.email), new UserCreate()])),
+          catchError(this.handlerError(new AuthSigninFailure()))
+        )
+    )
+  );
+
+  @Effect()
+  autheticated$ = this.actions$.pipe(
+    ofType<AuthActions>(AuthActionTypes.Authenticaded),
+    map(action => action.payload),
+    exhaustMap((payload: FormAuth) =>
+      this.auth
+        .getCurrentUser()
+        .pipe(
+          switchMap(user =>
+            user ?
+            from([new AuthAuthenticadedSuccess(user.email), new UserLoad()]):
+            of(new AuthAuthenticadedFailure())
+          ),
           catchError(this.handlerError(new AuthSigninFailure()))
         )
     )
@@ -61,7 +93,7 @@ export class AuthEffects {
 
   @Effect()
   logout$ = this.actions$.pipe(
-    ofType<AuthSignin>(AuthActionTypes.Logout),
+    ofType<AuthActions>(AuthActionTypes.Logout),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth
@@ -72,6 +104,11 @@ export class AuthEffects {
         )
     )
   );
+
+  @Effect()
+  init$: Observable<AuthActions> = defer(() => {
+    return of(new AuthAuthenticaded());
+  });
 
   private handlerError(action?: any): any {
     return err => {

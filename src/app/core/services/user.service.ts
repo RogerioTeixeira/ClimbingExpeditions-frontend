@@ -11,8 +11,8 @@ export class UserService extends Api<ResponseApi<User>> {
        super(http);
   }
 
-  public saveUserInfo(data: any): Observable<ResponseApi<User>> {
-    return this.post('/api/users', { name: 'ddd' });
+  public createUser(data?: any): Observable<ResponseApi<User>> {
+    return this.post('/api/users', data);
   }
 
   public getUserInfo(): Observable<ResponseApi<User>> {

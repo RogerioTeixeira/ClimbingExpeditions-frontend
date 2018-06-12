@@ -10,7 +10,9 @@ import {
   UserLoad,
   UserLoadFailure,
   UserLoadSuccess,
-  AuthLogout
+  UserCreate,
+  UserCreateSuccess,
+  UserCreateFailure
 } from '../action';
 import { FormAuth } from '../models';
 import { AuthService, UserService } from '../../core/services';
@@ -24,8 +26,24 @@ export class UserEffects {
     exhaustMap(() =>
       this.userService.getUserInfo().pipe(
         map(res => new UserLoadSuccess(res.data)),
-        catchError(err => {
-          return from([new UserLoadFailure() , new errorActions.Error(err)]);
+        catchError((err) => {
+          
+         return err.error.status === 404 ? 
+         from([new UserLoadFailure() , new UserCreate()]) :
+         from([new UserLoadFailure() , new errorActions.Error(err)]);
+        })
+      )
+    )
+  );
+
+  @Effect()
+  create$ = this.actions$.pipe(
+    ofType<UserLoad>(UserActionTypes.Create),
+    exhaustMap(() =>
+      this.userService.createUser().pipe(
+        map(res => new UserCreateSuccess(res.data)),
+        catchError((err:HttpErrorResponse) => {
+          return from([new UserCreateFailure() , new errorActions.Error(err)]);
         })
       )
     )

@@ -15,6 +15,8 @@ export function reducer(state = initialState, action: UserActions): State {
     case UserActionTypes.Load:
       return { ...state, pending: true };
     case UserActionTypes.LoadSuccess:
+    case UserActionTypes.CreateSuccess:
+    console.log('action.payload user create:', action.payload )
       return { ...state, pending: false, user: action.payload };
 
     case UserActionTypes.LoadFailure:

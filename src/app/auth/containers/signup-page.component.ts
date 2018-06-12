@@ -23,7 +23,6 @@ export class SignUpPageComponent implements OnInit, OnDestroy {
   }
 
   signup(event: FormAuth) {
-    console.log('signup 1:' , event);
     this.store.dispatch(new actions.AuthSignup(event));
   }
 }

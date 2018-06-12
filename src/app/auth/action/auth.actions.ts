@@ -5,6 +5,9 @@ export enum AuthActionTypes {
   Signin = '[Auth] Signin',
   SigninSuccess = '[Auth] Signin success',
   SigninFailure = '[Auth] Signin failure',
+  Authenticaded = '[Auth] Authenticaded',
+  AuthenticadedSuccess = '[Auth] Authenticaded success',
+  AuthenticadedFailure = '[Auth] Authenticaded failure',
   Signup = '[Auth] Signup',
   SignupSuccess = '[Auth] Signup success',
   SignupFailure = '[Auth] Signup failure',
@@ -27,6 +30,21 @@ export class AuthSigninFailure implements Action {
   constructor(public payload?: any) {}
 }
 
+export class AuthAuthenticaded implements Action {
+  readonly type = AuthActionTypes.Authenticaded;
+  constructor(public payload?: FormAuth) {}
+}
+
+export class AuthAuthenticadedSuccess implements Action {
+  readonly type = AuthActionTypes.AuthenticadedSuccess;
+  constructor(public payload?: any) {}
+}
+
+export class AuthAuthenticadedFailure implements Action {
+  readonly type = AuthActionTypes.AuthenticadedFailure;
+  constructor(public payload?: any) {}
+}
+
 export class AuthSignup implements Action {
   readonly type = AuthActionTypes.Signup;
   constructor(public payload?: FormAuth) {}
@@ -44,18 +62,24 @@ export class AuthSignupFailure implements Action {
 
 export class AuthLogout implements Action {
   readonly type = AuthActionTypes.Logout;
+  constructor(public payload?: any) {}
 }
 
 export class AuthLogoutSuccess implements Action {
   readonly type = AuthActionTypes.LogoutSuccess;
+  constructor(public payload?: any) {}
 }
 
 export type AuthActions =
   | AuthSignin
-  | AuthSignup
   | AuthSigninSuccess
-  | AuthSignupSuccess
   | AuthSigninFailure
+  | AuthSignup
+  | AuthSignupSuccess
   | AuthSignupFailure
   | AuthLogout
-  | AuthLogoutSuccess;
+  | AuthLogoutSuccess
+  | AuthAuthenticaded
+  | AuthAuthenticadedSuccess
+  | AuthAuthenticadedFailure;
+  

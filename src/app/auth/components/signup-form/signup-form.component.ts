@@ -36,9 +36,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   submitted() {
-    console.log('signup 2:');
     if (this.formG.valid) {
-      console.log('signup 3:');
       this.signedUp.emit({ provider: 'email', authInfo: this.formG.value });
     }
   }

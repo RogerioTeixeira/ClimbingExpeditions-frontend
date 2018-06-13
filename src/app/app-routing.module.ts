@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {path: '', loadChildren: './home/home.module#HomeModule'},
+  {path: 'profile', loadChildren: './profile/profile.module#ProfileModule'},
   { path: '**', loadChildren: './not-found/not-found.module#NotFoundModule' }
 ];
 

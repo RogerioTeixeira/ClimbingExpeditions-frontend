@@ -4,7 +4,8 @@ export enum LayoutActionTypes {
   showNavBar = '[Layout] Show Navbar',
   hideNavBar = '[Layout] Hide Navbar',
   showFooter = '[Layout] Show Footer',
-  hideFooter = '[Layout] Hide Footer'
+  hideFooter = '[Layout] Hide Footer',
+  notify = '[Layout] Notify',
 }
 
 export class ShowNavBar implements Action {
@@ -23,4 +24,9 @@ export class HideFooter implements Action {
   readonly type = LayoutActionTypes.hideFooter;
 }
 
-export type LayoutActions = ShowNavBar | HideNavBar | ShowFooter | HideFooter;
+export class Notify implements Action {
+  readonly type = LayoutActionTypes.notify;
+  constructor(public payload?: any) {}
+}
+
+export type LayoutActions = ShowNavBar | HideNavBar | ShowFooter | HideFooter| Notify;

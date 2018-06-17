@@ -16,11 +16,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService , UserService , NotificationService } from './services';
 
 import { reducers, metaReducers } from './reducers/index';
-import { ErrorEffects } from './effects';
+import { ErrorEffects , LayoutEffects } from './effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {ErrorModule} from './error/error.module';
+import {ErrorModule} from './errors/error.module';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -29,13 +29,13 @@ import { HttpTokenInterceptor } from './interceptors';
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     ErrorModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([ErrorEffects]),
+    EffectsModule.forRoot([ErrorEffects , LayoutEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     ShareModule,
     LayoutModule,
-    RouterModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.config),
     MatSnackBarModule

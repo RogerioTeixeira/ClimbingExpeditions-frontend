@@ -1,0 +1,18 @@
+<div class="error-wall load-error">
+  <div class="error-container">
+    <ng-container *ngIf="data?.error">
+      <h1>Errore 404</h1>
+      <h3>Pagina non trovata</h3>
+      <a mat-raised-button [routerLink]="'/'">
+        <h5>Go Home</h5>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="routeParams.message">
+        <h1>Errore {{routeParams.code}}</h1>
+        <h3>{{routeParams.message}}</h3>
+        <a mat-raised-button [routerLink]="'/'">
+          Go Home
+        </a>
+      </ng-container>
+  </div>
+</div>

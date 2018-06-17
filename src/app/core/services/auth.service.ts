@@ -4,7 +4,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/observable';
 import * as firebase from 'firebase/app';
-import { FirebaseHandlerError } from '../error/firebase-error';
+import { FirebaseResponseError } from '../errors/common';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators/catchError';
 
@@ -12,8 +12,9 @@ import { catchError } from 'rxjs/operators/catchError';
 export class AuthService {
   constructor(private afAuth: AngularFireAuth) {}
 
-  private formatErrors(error) {
-    return ErrorObservable.create(new FirebaseHandlerError(error));
+  private formatErrors(error): Observable<any>  {
+    const firebaseResponseError = <FirebaseResponseError> error;
+    return ErrorObservable.create<FirebaseResponseError>(firebaseResponseError);
   }
 
   signInWithEmail(

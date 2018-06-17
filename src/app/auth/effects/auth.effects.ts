@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from , defer , of} from 'rxjs';
+import { Observable, from, defer, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
-import * as errorActions from '../../core/actions';
+import * as errorActions from '../../core/actions/error.actions';
+import * as layoutActions from '../../core/actions/layout.actions';
 import {
   AuthActions,
   AuthSignin,
@@ -40,16 +41,11 @@ export class AuthEffects {
     )
   );
 
-
-  
-
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
     ofType<AuthActions>(AuthActionTypes.SigninSuccess),
     tap(() => this.router.navigate(['/']))
   );
-
-
 
   @Effect({ dispatch: false })
   signupSuccess$ = this.actions$.pipe(
@@ -57,17 +53,21 @@ export class AuthEffects {
     tap(() => this.router.navigate(['/']))
   );
 
-
-  
   @Effect()
   signup$ = this.actions$.pipe(
     ofType<AuthActions>(AuthActionTypes.Signup),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth
-        .signUpWithEmail(payload.authInfo.email, payload.authInfo.password, payload.authInfo.name)
+        .signUpWithEmail(
+          payload.authInfo.email,
+          payload.authInfo.password,
+          payload.authInfo.name
+        )
         .pipe(
-          switchMap((auth) => from([new AuthSignupSuccess(auth.user.email), new UserCreate()])),
+          switchMap(auth =>
+            from([new AuthSignupSuccess(auth.user.email), new UserCreate()])
+          ),
           catchError(this.handlerError(new AuthSigninFailure()))
         )
     )
@@ -78,16 +78,15 @@ export class AuthEffects {
     ofType<AuthActions>(AuthActionTypes.Authenticaded),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
-      this.auth
-        .getCurrentUser()
-        .pipe(
-          switchMap(user =>
-            user ?
-            from([new AuthAuthenticadedSuccess(user.email), new UserLoad()]):
-            of(new AuthAuthenticadedFailure())
-          ),
-          catchError(this.handlerError(new AuthSigninFailure()))
-        )
+      this.auth.getCurrentUser().pipe(
+        switchMap(
+          user =>
+            user
+              ? from([new AuthAuthenticadedSuccess(user.email), new UserLoad()])
+              : of(new AuthAuthenticadedFailure())
+        ),
+        catchError(this.handlerError(new AuthSigninFailure()))
+      )
     )
   );
 
@@ -96,12 +95,10 @@ export class AuthEffects {
     ofType<AuthActions>(AuthActionTypes.Logout),
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
-      this.auth
-        .logout()
-        .pipe(
-          switchMap(() => from([new AuthLogoutSuccess(), new UserReset()])),
-          catchError(this.handlerError())
-        )
+      this.auth.logout().pipe(
+        switchMap(() => from([new AuthLogoutSuccess(), new UserReset()])),
+        catchError(this.handlerError())
+      )
     )
   );
 
@@ -112,7 +109,22 @@ export class AuthEffects {
 
   private handlerError(action?: any): any {
     return err => {
-      return from([action, new errorActions.Error(err)]);
+      const actions = [action];
+      switch (err.code) {
+        case 'auth/wrong-password':
+          actions.push(new layoutActions.Notify('Password non valida'));
+          break;
+        case 'auth/user-not-found':
+          actions.push(new layoutActions.Notify('Utente non trovato'));
+          break;
+        case 'auth/user-disabled':
+          actions.push(new layoutActions.Notify('Utente disabilitato'));
+          break;
+        default:
+          actions.push(new errorActions.Error(err));
+          break;
+      }
+      return from(actions);
     };
   }
   constructor(

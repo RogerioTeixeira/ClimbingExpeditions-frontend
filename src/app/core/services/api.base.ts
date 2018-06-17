@@ -3,13 +3,11 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators/catchError';
 import { Observable } from 'rxjs';
-import {ApiHandlerError} from '../error';
-import {FirebaseHandlerError} from '../error/firebase-error';
 export class Api<T> {
   constructor(protected http: HttpClient) {}
 
   private formatErrors(error: HttpErrorResponse) {
-    return ErrorObservable.create(new ApiHandlerError(error));
+    return ErrorObservable.create(error);
   }
 
   protected get(path: string, params: HttpParams = new HttpParams()): Observable<T> {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,7 +15,22 @@ import { UserService } from '../../../core/services/user.service';
 })
 export class SignInFormComponent implements OnInit {
   formG: FormGroup;
+  private _disabled: boolean;
   @Output() signedIn: EventEmitter<FormAuth> = new EventEmitter<FormAuth>();
+  @Input()
+  set disabled(value: boolean) {
+    this._disabled = value;
+    if (this.formG) {
+      if (value) {
+        this.formG.disable();
+      } else {
+        this.formG.enable();
+      }
+    }
+  }
+  get disabled(): boolean {
+    return this._disabled;
+  }
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
@@ -27,7 +42,8 @@ export class SignInFormComponent implements OnInit {
       password: [
         null,
         Validators.compose([Validators.required, Validators.minLength(6)])
-      ]
+      ],
+      remember: [null]
     });
   }
 

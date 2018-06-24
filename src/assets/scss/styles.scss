@@ -47,3 +47,8 @@ $candy-app-warn);
     background: mat-color($mat-green, 500) !important;
   }
 }
+
+a.disabled {
+  color: gray !important;
+  cursor: not-allowed;
+}

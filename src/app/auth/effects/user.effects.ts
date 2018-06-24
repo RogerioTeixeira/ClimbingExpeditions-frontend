@@ -27,8 +27,7 @@ export class UserEffects {
       this.userService.getUserInfo().pipe(
         map(res => new UserLoadSuccess(res.data)),
         catchError((err) => {
-          
-         return err.error.status === 404 ? 
+         return err.error.status === 404 ?
          from([new UserLoadFailure() , new UserCreate()]) :
          from([new UserLoadFailure() , new errorActions.Error(err)]);
         })

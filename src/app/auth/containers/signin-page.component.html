@@ -1,12 +1,14 @@
-<clex-card-auth title="Accedi">
-  <clex-signin-form (signedIn)="signIn($event)"> </clex-signin-form>
-  <hr class="hr--separator">
-  <div fxLayout="column" fxLayoutGap="10px" fxFlex="grown" fxLayoutAlign="center stretch">
-    <div fxFlexAlign="center" class="text-title-social">Connettiti con</div>
-    <clex-social-auth></clex-social-auth>
-  </div>
-  <div fxFlexAlign="center" class="text-title-social">
-    Non hai un account ?
-    <a routerLink="/signup"> Registrati</a>
-  </div>
-</clex-card-auth>
+<ng-container *ngIf="$status|async as status">
+  <clex-card-auth title="Accedi" [showLoader]='status.pending'>
+    <clex-signin-form (signedIn)="signIn($event)" [disabled]="status.pending"> </clex-signin-form>
+    <hr class="hr--separator">
+    <div fxLayout="column" fxLayoutGap="10px" fxFlex="grown" fxLayoutAlign="center stretch">
+      <div fxFlexAlign="center" class="text-title-social">Connettiti con</div>
+      <clex-social-auth [disabled]="status.pending"></clex-social-auth>
+    </div>
+    <div fxFlexAlign="center" class="text-title-social">
+      Non hai un account ?
+      <a routerLink="/signup" [class.disabled]="status.pending"> Registrati</a>
+    </div>
+  </clex-card-auth>
+</ng-container>

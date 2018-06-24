@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Input } from '@angular/core';
 
 @Component({
   selector: 'clex-social-auth',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./social-auth.component.scss']
 })
 export class SocialAuthComponent implements OnInit {
+  @Input()disabled: boolean;
 
   constructor() { }
 

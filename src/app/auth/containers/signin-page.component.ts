@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormAuth } from '../models';
 import { Store } from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as LayoutActions from '../../core/actions/layout.actions';
 import * as actions from '../../auth/action';
+import * as select from '../reducers';
+import { getLoggedPending } from '../reducers/index';
 
 @Component({
   selector: 'clex-signin-page',
@@ -10,11 +13,13 @@ import * as actions from '../../auth/action';
   styleUrls: ['./auth-share.component.scss']
 })
 export class SignInPageComponent implements OnInit, OnDestroy {
+  $status: Observable<any>;
   constructor(public store: Store<any>) {}
 
   ngOnInit() {
     this.store.dispatch(new LayoutActions.HideNavBar());
     this.store.dispatch(new LayoutActions.HideFooter());
+    this.$status = this.store.select(select.selectAuthStatusState);
   }
 
   ngOnDestroy(): void {

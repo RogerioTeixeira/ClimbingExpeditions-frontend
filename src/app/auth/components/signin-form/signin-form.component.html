@@ -1,6 +1,6 @@
 <form fxLayout="column" [formGroup]="formG" (ngSubmit)="submitted()" fxFlex="grow" fxLayoutGap="10px" fxLayoutAlign="center stretch">
-  <mat-form-field class="mb-2">
-    <input matInput placeholder="Email" formControlName="email" type="email">
+  <mat-form-field class="mb-2" >
+    <input matInput placeholder="Email" formControlName="email" type="email" >
     <mat-error *ngIf="!formG.controls.email.valid">
       Inserire indirizzo email valido
     </mat-error>
@@ -12,11 +12,11 @@
     </mat-error>
   </mat-form-field>
   <div fxLayout="row">
-    <mat-checkbox>Ricordati di me</mat-checkbox>
+    <mat-checkbox formControlName="remember">Ricordati di me</mat-checkbox>
     <div fxFlex="1 1 auto"></div>
-    <a href="#"style="line-height: 24px">Recupera password</a>
+    <a href="#"style="line-height: 24px" [class.disabled]="disabled">Recupera password</a>
   </div>
-  <button mat-raised-button color="primary" class="button-social button-social--email mt-5 " type="submit">
+  <button mat-raised-button color="primary" class="button-social button-social--email mt-5 " type="submit" [disabled]="disabled">
     accedi
   </button>
 </form>

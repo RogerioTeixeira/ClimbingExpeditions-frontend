@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, from, defer, of } from 'rxjs';
-import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, from, defer, of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  switchMap,
+  tap,
+  take
+} from 'rxjs/operators';
 import * as errorActions from '../../core/actions/error.actions';
 import * as layoutActions from '../../core/actions/layout.actions';
 import {
@@ -12,16 +20,19 @@ import {
   AuthSigninSuccess,
   AuthSigninFailure,
   UserLoad,
+  UserLoadSuccess,
+  AuthLogout,
   AuthLogoutSuccess,
   UserReset,
   AuthSignupSuccess,
+  AuthSignupFailure,
   UserCreate,
   AuthAuthenticaded,
   AuthAuthenticadedSuccess,
   AuthAuthenticadedFailure
 } from '../action';
 import { FormAuth } from '../models';
-import { AuthService } from '../../core/services';
+import { AuthService, UserService } from '../../core/services';
 
 @Injectable()
 export class AuthEffects {
@@ -34,9 +45,22 @@ export class AuthEffects {
         .signInWithEmail(payload.authInfo.email, payload.authInfo.password)
         .pipe(
           switchMap(auth =>
-            from([new AuthSigninSuccess(auth.user.email), new UserLoad()])
+            this.userService.getUserInfo().pipe(
+              map(user => new AuthSigninSuccess(user.data)),
+              catchError(err => {
+                if (err.status === 404) {
+                  return this.userService
+                    .createUser()
+                    .pipe(map(user => new AuthSigninSuccess(user.data)));
+                } else {
+                  throw err;
+                }
+              })
+            )
           ),
-          catchError(this.handlerError(new AuthSigninFailure()))
+          catchError(
+            this.handlerError([new AuthSigninFailure(), new AuthLogout()])
+          )
         )
     )
   );
@@ -66,9 +90,9 @@ export class AuthEffects {
         )
         .pipe(
           switchMap(auth =>
-            from([new AuthSignupSuccess(auth.user.email), new UserCreate()])
+            from([new AuthSignupSuccess(), new AuthSignin(payload)])
           ),
-          catchError(this.handlerError(new AuthSigninFailure()))
+          catchError(this.handlerError([new AuthSignupFailure()]))
         )
     )
   );
@@ -79,13 +103,16 @@ export class AuthEffects {
     map(action => action.payload),
     exhaustMap((payload: FormAuth) =>
       this.auth.getCurrentUser().pipe(
+        take(1),
         switchMap(
           user =>
             user
               ? from([new AuthAuthenticadedSuccess(user.email), new UserLoad()])
               : of(new AuthAuthenticadedFailure())
         ),
-        catchError(this.handlerError(new AuthSigninFailure()))
+        catchError(
+          this.handlerError([new AuthSigninFailure(), new AuthLogout()])
+        )
       )
     )
   );
@@ -107,22 +134,35 @@ export class AuthEffects {
     return of(new AuthAuthenticaded());
   });
 
-  private handlerError(action?: any): any {
+  private handlerError(action?: any[]): any {
     return err => {
-      const actions = [action];
-      switch (err.code) {
-        case 'auth/wrong-password':
-          actions.push(new layoutActions.Notify('Password non valida'));
-          break;
-        case 'auth/user-not-found':
-          actions.push(new layoutActions.Notify('Utente non trovato'));
-          break;
-        case 'auth/user-disabled':
-          actions.push(new layoutActions.Notify('Utente disabilitato'));
-          break;
-        default:
-          actions.push(new errorActions.Error(err));
-          break;
+      const actions = action;
+      if (err instanceof HttpErrorResponse) {
+        switch (err.status) {
+          case 0:
+            actions.push(new layoutActions.Notify('Servizio momentaneamente non disponibile'));
+            break;
+        }
+      } else {
+        switch (err.code) {
+          case 'auth/wrong-password':
+            actions.push(new layoutActions.Notify('Password non valida'));
+            break;
+          case 'auth/user-not-found':
+            actions.push(new layoutActions.Notify('Utente non trovato'));
+            break;
+          case 'auth/user-disabled':
+            actions.push(new layoutActions.Notify('Utente disabilitato'));
+            break;
+          case 'auth/email-already-in-use':
+            actions.push(
+              new layoutActions.Notify('Utente risulta già registrato')
+            );
+            break;
+          default:
+            actions.push(new errorActions.Error(err));
+            break;
+        }
       }
       return from(actions);
     };
@@ -130,6 +170,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 }

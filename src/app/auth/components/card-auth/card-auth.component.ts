@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CardAuthComponent implements OnInit {
   @Input() title: string;
-  @Input() showLoading: boolean;
+  @Input() showLoader: boolean;
   constructor() {}
 
   ngOnInit() {}

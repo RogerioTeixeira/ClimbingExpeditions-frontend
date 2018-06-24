@@ -33,6 +33,10 @@ export const getLoggedIn = createSelector(
   fromAuth.getLoggedIn
 );
 
+export const getLoggedPending = createSelector(
+  selectAuthStatusState,
+  fromAuth.getLoggedPending
+);
 
 
 export const selectAuthUserState = createSelector(

@@ -1,4 +1,23 @@
-:host{
+@import '~@angular/material/theming';
+@import '../../../assets/scss/mixin.scss';
+:host {
   display: flex;
   flex: 1 1 100%;
 }
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding: 24px;
+  .container-info {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@include breakpoint(xs) {
+  .container {
+    padding: 0;
+  }
+}
+

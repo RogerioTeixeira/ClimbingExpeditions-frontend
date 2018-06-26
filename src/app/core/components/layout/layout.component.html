@@ -12,7 +12,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content fxLayout="column">
-    <div fxFlexFill >
+    <div fxFlex="1 1 auto" >
       <router-outlet></router-outlet>
     </div>
     <clex-footer *ngIf="($footer|async)"></clex-footer>

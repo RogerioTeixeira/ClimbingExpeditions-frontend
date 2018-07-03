@@ -3,19 +3,36 @@
   flex: 1 1 100%;
   flex-direction: column;
 }
+
 .container-header {
   background: linear-gradient(to right, #FF8A65, #E64A19);
   width: 100%;
   height: 250px;
 }
-.container-info-image{
-  margin-top: -124px !important;
-  img {
-    border: 5px solid #fff;
-    width:  200px;
-    height: 200px;
-  }
 
+.container-card {
+  .profile-image {
+    margin-top: -124px !important;
+    img {
+      border: 5px solid #fff;
+      width: 200px;
+      height: 200px;
+    }
+  }
+  .profile-info {
+    h1,
+    p {
+      text-align: center;
+    }
+
+    h1{
+      font-size: 1.5rem;
+    }
+    p{
+      font-size: 1rem;
+      color: grey;
+    }
+  }
 }
 
 /*.container-card {

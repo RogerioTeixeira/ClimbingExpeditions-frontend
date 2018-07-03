@@ -1,16 +1,14 @@
 <div class="container-header"></div>
 <mat-card fxLayout="column" class="container-card" fxLayoutAlign="start center">
-  <div class="container-info-image">
+  <div class="profile-image">
     <img class="rounded-circle" [src]="imageUrl" alt="Photo Profile">
   </div>
-  <div class="display-container">
-    <div class="display-container-bottom-left">
-      <h2>{{name}}</h2>
-      <p>{{location}}</p>
+  <mat-card-content class="display-container" fxLayoutGap="10px" fxLayoutGap.xs="10px" fxLayout="column" fxFlex="grow">
+    <div class="profile-info">
+      <h1 *ngIf="name">{{name}}</h1>
+      <p *ngIf="location">{{location}}</p>
     </div>
-  </div>
-  <mat-card-content class="display-container" fxLayoutGap="40px" fxLayoutGap.xs="20px" fxLayout="column" fxFlex="grow">
-
+    <button mat-raised-button color="primary" (click)="clickUpdate.emit()">Modifica</button>
   </mat-card-content>
 </mat-card>
 

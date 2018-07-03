@@ -1,0 +1,21 @@
+<form fxLayout="column" [formGroup]="formG" (ngSubmit)="submitted()" fxFlex="grow" fxLayoutGap="10px" fxLayoutAlign="center stretch">
+    <mat-form-field class="mb-2" >
+      <input matInput placeholder="Nome" formControlName="name" type="text" >
+      <mat-error *ngIf="!formG.controls.name.valid">
+        Nome obbligatorio
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="mb-2" >
+        <input matInput placeholder="Data Nascita" formControlName="birthdate" type="date" >
+        <mat-error *ngIf="!formG.controls.birthdate.valid">
+         Data nascita obbligatoria 
+        </mat-error>
+      </mat-form-field>
+    <div fxLayout="row">
+      <mat-checkbox formControlName="remember">Ricordati di me</mat-checkbox>
+      <div fxFlex="1 1 auto"></div>
+    </div>
+    <button mat-raised-button color="primary" class="button-social button-social--email mt-5 " type="submit" [disabled]="disabled">
+      accedi
+    </button>
+  </form>

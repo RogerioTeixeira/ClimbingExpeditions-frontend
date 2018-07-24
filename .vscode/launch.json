@@ -9,12 +9,14 @@
       "request": "launch",
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/src",
-      "breakOnLoad": true,
-      "sourceMaps": true,
-      "sourceMapPathOverrides": {
-        "webpack:/./*": "${webRoot}/*"
-      }
-    }
-  ]
+      "webRoot": "${workspaceFolder}"
+  },
+  {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}"
+  }
+]
 }
